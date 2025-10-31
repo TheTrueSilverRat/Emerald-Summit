@@ -42,12 +42,12 @@
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_CON = 1,
-		STATKEY_END = 2,
+		STATKEY_END = 3,
 		STATKEY_SPD = 1
 	)
 
 	subclass_skills = list(
-		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT, //Pulling ploughs through frozen mud from sunup to sundown gives the soilers top tier stamina
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,

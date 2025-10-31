@@ -5,12 +5,13 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/butcher
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	traits_applied = list(TRAIT_PEASANTMILITIA)
 
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_END = 1,
 		STATKEY_STR = 2,
-		STATKEY_SPD = -2 //Slow, plodding, tough and strong and wielding a butcher knife. That's right, slasher villain butcher is back on the menu
+		STATKEY_SPD = -2 //Slow, plodding, tough, strong and wielding a butcher knife. That's right, slasher villain butcher is back on the menu
 	)
 
 	subclass_skills = list(
