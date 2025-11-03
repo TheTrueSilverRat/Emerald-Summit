@@ -2,8 +2,17 @@
 /datum/advclass/mercenary/grudgekeeper
 	name = "Grudgekeeper"
 	tutorial = "The Bearer of Grudges. Well-Respected among your fellow Keepers, chosen to be the one who never forgets." //Writing is not my forte
-	outfit = /datum/outfit/job/roguetown/mercenary/grudgebearer_soldier
+		allowed_sexes = list(MALE, FEMALE)
+	allowed_races = list(
+		/datum/species/dwarf,
+		/datum/species/dwarf/mountain
+	)
+	outfit = /datum/outfit/job/roguetown/mercenary/grudgekeeper
 	maximum_possible_slots = 1
+	category_tags = list(CTAG_MERCENARY)
+	class_select_category = CLASS_CAT_RACIAL
+	cmode_music = 'sound/music/combat_dwarf.ogg'
+	extra_context = "This subclass is race-limited to: Dwarves."
 
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_BREADY)
 	subclass_stats = list(
@@ -28,7 +37,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/grudgebearer_soldier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/grudgekeeper/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
 
