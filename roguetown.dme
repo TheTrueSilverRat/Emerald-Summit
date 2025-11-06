@@ -1924,6 +1924,8 @@
 #include "code\modules\mob\living\carbon\human\species_types\wildshape\spider.dm"
 #include "code\modules\mob\living\carbon\human\species_types\wildshape\volf.dm"
 #include "code\modules\mob\living\carbon\human\species_types\wildshape\vernard.dm"
+#include "code\modules\mob\living\carbon\human\species_types\wildshape\bear.dm"
+#include "code\modules\mob\living\carbon\human\species_types\wildshape\cabbit.dm"
 #include "code\modules\mob\living\carbon\human\species_types\wildshape\wildshape_transformation.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\genfemale.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\genmale.dm"
