@@ -487,11 +487,3 @@
 #define COMSIG_TRAIT_LOSS "trait_loss"    // (trait, source)				//from monkey CtrlClickOn(): (/mob)
 
 #define COMSIG_ITEM_ATTACK_EFFECT "item_attack_effect"
-#define COMSIG_ITEM_ATTACK_EFFECT_SELF "item_attack_effect_self"
-
-//S Smithing
-
-#define COMSIG_ITEM_PLACED_ON_ANVIL "item_placed_on_anvil"
-#define COMSIG_ITEM_REMOVED_FROM_ANVIL "item_removed_from_anvil"
-#define COMSIG_ITEM_HAMMERED_ON_ANVIL "item_hammered_on_anvil"
-#define COMSIG_ITEM_ADDED_TO_FORGING "item_added_to_forging"
