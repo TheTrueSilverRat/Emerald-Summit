@@ -1417,6 +1417,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			
 		var/list/peeledpart = body_parts_covered2organ_names(coveragezone, precise = TRUE)
 
+		if(peel_count < peel_goal)
+			peel_count++
+
 		if(peel_count >= peel_goal)
 			body_parts_covered_dynamic &= ~coveragezone
 			playsound(src, 'sound/foley/peeled_coverage.ogg', 100)

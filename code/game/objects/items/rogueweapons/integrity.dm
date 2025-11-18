@@ -101,7 +101,7 @@
 					to_chat(user, span_info("Fully sharpened."))
 					break
 				if(do_after(user, 1.5 SECONDS, same_direction = TRUE))
-					sharpen(ST, user)
+					sharpen(ST, user, 0.3)
 				else
 					break
 			return
