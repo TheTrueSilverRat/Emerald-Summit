@@ -220,7 +220,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 
 /mob/dead/observer/Login()
 	. = ..()
-	if(ckey == "kathymeows")
+	if(ckey in list("kathymeows","thinkingface"))
 		returntolobby()
 		return
 	if(!(istype(src, /mob/dead/observer/rogue/arcaneeye)))
