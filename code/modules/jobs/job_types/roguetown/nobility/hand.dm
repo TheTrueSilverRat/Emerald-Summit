@@ -58,6 +58,7 @@
 		if(istype(H))
 			H.verbs |= list(/mob/living/carbon/human/proc/disgrace_knight, /mob/living/carbon/human/proc/fire_guard)
 			H.hand_disgrace_cooldown = 0
+			H.hand_fire_guard_cooldown = 0
 	addtimer(CALLBACK(src, PROC_REF(know_agents), L), 5 SECONDS)
 
 /datum/job/roguetown/hand/proc/know_agents(var/mob/living/carbon/human/H)
