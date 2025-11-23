@@ -238,9 +238,9 @@
 	testing("startforce [newforce]")
 	if(!istype(user))
 		return newforce
-	var/dullness_ratio
+	var/dullness_ratio = 1
 	if(I.max_blade_int && I.sharpness != IS_BLUNT)
-		dullness_ratio = I.blade_int / I.max_blade_int
+		dullness_ratio = clamp(I.blade_int / I.max_blade_int, 0.05, 1)
 	var/cont = FALSE
 	var/used_str = user.STASTR
 	if(iscarbon(user))
