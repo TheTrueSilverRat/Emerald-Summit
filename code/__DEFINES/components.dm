@@ -499,6 +499,7 @@
 #define COMSIG_TRAIT_LOSS "trait_loss"    // (trait, source)				//from monkey CtrlClickOn(): (/mob)
 
 #define COMSIG_ITEM_ATTACK_EFFECT "item_attack_effect"
+#define COMSIG_ITEM_ATTACK_EFFECT_SELF "item_attack_effect_self"
 
 //Roguetown-specific
 #define  COMSIG_MOB_ON_KICK	"mob_on_kick"	//from /mob/living/proc/try_kick(atom/A). This is for when the src has done a kick.
