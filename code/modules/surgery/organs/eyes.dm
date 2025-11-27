@@ -182,7 +182,7 @@
 
 /obj/item/organ/eyes/night_vision/wild_goblin/on_life()
 	. = ..()
-	if (!isgoblinp(owner))
+	if (!isgoblinp(owner) && !istype(owner, /mob/living/carbon/human/species/goblin))
 		if (prob(50))
 			owner.adjustToxLoss(5)
 			applyOrganDamage(10)
