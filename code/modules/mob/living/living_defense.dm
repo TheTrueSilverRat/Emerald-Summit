@@ -161,6 +161,7 @@
 		adjust_fire_stacks(added)
 	else
 		adjust_fire_stacks(1)
+	ignite_mob() // we do this because fire stacks does not automatically mean ignited. fire_act is FIRE, so we should also ignite
 
 /mob/living/proc/grabbedby(mob/living/carbon/user, supress_message = FALSE, item_override)
 	if(!user || !src || anchored || !isturf(user.loc))
