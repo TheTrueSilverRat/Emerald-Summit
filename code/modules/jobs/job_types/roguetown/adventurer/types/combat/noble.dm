@@ -222,10 +222,8 @@
 		var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU SWING BEFORE DEATH") as anything in weapons
 		switch(weapon_choice)
 			if("Arming Sword")
-				backl = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/iron
 			if("Shortsword + Shield")
-				beltr = /obj/item/rogueweapon/scabbard/sword
 				backl = /obj/item/rogueweapon/shield/wood
 				r_hand = /obj/item/rogueweapon/sword/short/iron
 			if("Bow & Arrow")
@@ -234,5 +232,4 @@
 				beltr = /obj/item/quiver/arrows
 			if("Spear")
 				r_hand = /obj/item/rogueweapon/spear
-				backl = /obj/item/rogueweapon/scabbard/gwstrap
 	H.set_blindness(0)
