@@ -61,17 +61,17 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		popup.open(FALSE)
 		return
 
-		if(href_list["task"] == "view_rumours")
-			if(!ismob(usr))
-				return
-			to_chat(usr, "<span class='info'><b>Rumours about [src]:</b><br>[rumour]</span>")
+	if(href_list["task"] == "view_rumours")
+		if(!ismob(usr))
 			return
+		to_chat(usr, "<span class='info'><b>Rumours about [src]:</b><br>[rumour]</span>")
+		return
 
-		if(href_list["task"] == "view_noble_rumours")
-			if(!ismob(usr))
-				return
-			to_chat(usr, "<span class='info'><b>Noble Gossip about [src]:</b><br>[rumour_noble]</span>")
+	if(href_list["task"] == "view_noble_rumours")
+		if(!ismob(usr))
 			return
+		to_chat(usr, "<span class='info'><b>Noble Gossip about [src]:</b><br>[rumour_noble]</span>")
+		return
 
 	if(href_list["inspect_limb"] && (observer_privilege || usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY)))
 		var/list/msg = list()

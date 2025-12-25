@@ -1910,7 +1910,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					to_chat(user, "<span class='notice'>Successfully updated OOC notes.</span>")
 					log_game("[user] has set their OOC notes'.")
 				if("rumour")
-					to_chat(user, "<span class='notice'>["<span class='bold'>Rumours are things others might know, or think they know about you, they don't necessarily have to be precise, or even true. But remember that they can provide a hint to another player on how to RP, interact with, or even think about your character.</span>"]</span>")
+					to_chat(user, "<span class='notice'>["<span class='bold'>Rumours are things others might know, or think they know about you, they don't necessarily have to be precise, or even true. But remember that they can provide a hint to another player on how to interact with, or even think about your character.</span>"]</span>")
 					var/new_rumour = tgui_input_text(user, "Input rumours about your character:", "Rumours", rumour, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
 					if(new_rumour == null)
 						return
@@ -1930,7 +1930,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					log_game("[user] has set their rumour'.")
 
 				if("gossip")
-					to_chat(user, "<span class='notice'>["<span class='bold'>Gossip is rumours spread around, and known only in Noble circles, only other well-born individuals are aware of it. Gossip, similarly to standard rumours does not need to be precise or true, but remember that it can provide hints and avenutes for other Nobles to RP, interact with, and judge your Character.</span>"]</span>")
+					to_chat(user, "<span class='notice'>["<span class='bold'>Gossip is rumours spread around, and known only in Noble circles, only other well-born individuals are aware of it. Gossip, similarly to standard rumours does not need to be precise or true, but remember that it can provide hints and avenues for other Nobles to interact with, and judge your Character.</span>"]</span>")
 					var/new_gossip = tgui_input_text(user, "Input noble gossip about your character:", "Noble Gossip", gossip, multiline = TRUE, encode = FALSE, bigmodal = TRUE)
 					if(new_gossip == null)
 						return
