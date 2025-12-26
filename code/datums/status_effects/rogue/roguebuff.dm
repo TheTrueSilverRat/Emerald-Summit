@@ -1402,7 +1402,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/motive
 	name = "Motive"
-	desc = span_bloody("GRAGGAR'S ARMAMENTS CALL ME TO SLAUGHTER!! KILL!! RIP!! MAIM!!")
+	desc = span_bloody("GRAGGAR'S ARMAMENTS CALL ME TO SLAUGHTER!! KILL!! RIP!! CONSUME!!")
 	icon_state = "call_to_slaughter"
 
 /datum/status_effect/buff/psydonic_endurance

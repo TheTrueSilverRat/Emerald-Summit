@@ -144,7 +144,7 @@
 	addtimer(CALLBACK(src, PROC_REF(restore_bleed_mod), phy), 25 SECONDS)
 	addtimer(CALLBACK(src, PROC_REF(restore_pain_mod), phy), 15 SECONDS)
 
-	human.visible_message(span_danger("[human]'s wounds become inflammed as their vitality is sapped away!"))
+	human.visible_message(span_danger("[human]'s wounds become inflamed as their vitality is sapped away!"))
 	to_chat(human, span_warning("My skins feels like pins and needles, as if something were ripping and tearing at me!"))
 
 	return TRUE

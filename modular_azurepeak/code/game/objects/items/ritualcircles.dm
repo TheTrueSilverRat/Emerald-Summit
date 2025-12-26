@@ -1039,7 +1039,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 			spawn(120)
 				icon_state = "graggar_chalky" 
 		if("War Ritual")
-			to_chat(user, span_userdanger("This rite will get me more tired than usual... I wonder, should I proceed?"))
+			to_chat(user, span_userdanger("This ritual will tire me more than usual... Should I proceed?"))
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("BLOOD FOR THE WAR GOD, THE CIRCLE IS DRAWN!!")
@@ -1053,9 +1053,9 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 				return
 			icon_state = "graggar_active"
 			if(perform_warritual())
-				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_high)
+				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_severe)
 			else
-				to_chat(user, span_smallred("The ritual fails. A noble, member of the inquisition or a tennite churchling body must be in the center of the circle!"))
+				to_chat(user, span_smallred("The ritual fails. A body of noble blood - from the inquisition - or from the church must be on the circle!"))
 			spawn(120)
 				icon_state = "graggar_chalky" 
 /obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target)
