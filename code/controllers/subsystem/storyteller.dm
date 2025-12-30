@@ -306,6 +306,9 @@ SUBSYSTEM_DEF(gamemode)
 
 /// Whether events can inject more antagonists into the round
 /datum/controller/subsystem/gamemode/proc/can_inject_antags()
+	if(!current_storyteller?.can_inject_antags)
+		return FALSE
+
 	return (get_antag_cap() > get_antag_count())
 
 /// Gets candidates for antagonist roles.
@@ -718,6 +721,7 @@ SUBSYSTEM_DEF(gamemode)
 			break
 
 	var/datum/storyteller/selected_storyboy = storytellers[selected_storyteller]
+	set_storyteller(selected_storyteller)
 	selected_storyboy.on_vote_chosen()
 	to_chat(world, span_notice("<b>Storyteller is [selected_storyboy.name]!</b>"))
 	to_chat(world, span_notice("[initial(selected_storyboy.vote_desc)]"))

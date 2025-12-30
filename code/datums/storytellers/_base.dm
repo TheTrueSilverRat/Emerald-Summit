@@ -88,6 +88,8 @@
 	var/ascendant = FALSE
 	/// Set to TRUE so this storyteller won't be replaced by another storyteller mid-round
 	var/rules_forever = FALSE
+	/// Hardcode switch to disable antag injections
+	var/can_inject_antags = TRUE
 
 /datum/storyteller/New()
 	. = ..()

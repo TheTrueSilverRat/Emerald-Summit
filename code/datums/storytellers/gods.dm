@@ -34,6 +34,7 @@
 	weight = 6
 	always_votable = TRUE
 	color_theme = "#80ced8"
+	can_inject_antags = FALSE
 
 	//Has no influence, your actions will not impact him his spawn rates. Cus he's asleep.
 	//Tl;dr - higher event spawn rates to keep stuff interesting, no god intervention, no antags.
@@ -51,6 +52,7 @@
 	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
 	bandit_job.total_positions = 0
 	bandit_job.spawn_positions = 0
+	to_chat(world, span_notice("<b>PSYDON ENDURES! Bandit slots will be closed this round.</b>"))
 
 /datum/storyteller/astrata
 	name = "Astrata"
