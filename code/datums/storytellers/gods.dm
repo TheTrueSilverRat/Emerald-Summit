@@ -52,6 +52,9 @@
 	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
 	bandit_job.total_positions = 0
 	bandit_job.spawn_positions = 0
+	var/datum/job/bandit_hostage = SSjob.GetJob("Hostage (Bandit)")
+	bandit_hostage.total_positions = 0
+	bandit_hostage.spawn_positions = 0
 	to_chat(world, span_notice("<b>PSYDON ENDURES! Bandit slots will be closed this round.</b>"))
 
 /datum/storyteller/astrata
