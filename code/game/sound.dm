@@ -123,6 +123,9 @@
 	if(!client || !can_hear())
 		return FALSE
 
+	if(source && (source == src || get_turf(source) == get_turf(src)))
+		override = TRUE
+
 	if(!S)
 		S = sound(get_sfx(soundin))
 
@@ -165,13 +168,13 @@
 		S.frequency = frequency
 
 	if(source)
-		// Handle guns in inventory - play directly without source
-		if(istype(source, /obj/item/gun) && (source in contents))
-			override = TRUE
 
 		// Get topmost atom if source is nested in containers
 		if(!isturf(source) && !isturf(source.loc))
 			source = get_topmost_atom(source)
+
+		if(source in contents || source == src)
+			override = TRUE
 
 		if(!source)
 			CRASH("No source for sound in playsound_local called by [src]!")
@@ -180,43 +183,51 @@
 		var/atom/movable/tocheck = user_head ? user_head : src
 		var/turf/T = get_turf(tocheck)
 
-		//sound volume falloff with distance
-		var/distance = get_dist(T, source)
-
-		S.volume -= (distance * (0.10 * S.volume)) //10% each step
-/*
-		if(pressure_affected)
-			//Atmosphere affects sound
-			var/pressure_factor = 1
-			var/datum/gas_mixture/hearer_env = T.return_air()
-			var/datum/gas_mixture/source_env = source.return_air()
-
-			if(hearer_env && source_env)
-				var/pressure = min(hearer_env.return_pressure(), source_env.return_pressure())
-				if(pressure < ONE_ATMOSPHERE)
-					pressure_factor = max((pressure - SOUND_MINIMUM_PRESSURE)/(ONE_ATMOSPHERE - SOUND_MINIMUM_PRESSURE), 0)
-			else //space
-				pressure_factor = 0
-
-			if(distance <= 1)
-				pressure_factor = max(pressure_factor, 0.15) //touching the source of the sound
-
-			S.volume *= pressure_factor
-			//End Atmosphere affecting sound
-*/
-
 		if(S.volume <= 0)
 			return FALSE //No sound
 
-		// Use sound.atom for positional audio
-		if(!override)
-			S.atom = source
 
 		var/dz = source.z - T.z
-		var/eyez = client.perspective == MOB_PERSPECTIVE ? T.z : client.eye:z
+		var/mob_perspective = client.perspective == MOB_PERSPECTIVE
+		var/eyez = mob_perspective ? T.z : client.eye:z
+		var/distance = mob_perspective ? get_dist(T, source) : get_dist(client.eye, source)
+
+		// Spatial offsets for the sound source
+		// This is only necessary for sounds that play from
+		// outside the viewport, since sound.atom won't properly
+		// track their position relative to the client.
+		
+		// Note: world.view + 2 is not a magic number here - BYOND tracks atoms
+		// up to 2 turfs outside the viewport. Offsetting manually like this 
+		// is unlikely to be necessary for most sounds, but sounds with a massive range
+		// require it or they will always be played with infinite falloff (volume = 0)
+
+		var/tracked = distance <= world.view + 2
+
+		var/dx = tracked ? 0 : source.x - T.x
+		var/dy = tracked ? 0 : source.y - T.y
+		
+		// Applies nearfield attenuation to prevent sounds
+		// from being too loud when played from a distance of 0
+		// Only necessary because old sound positioning code 
+		// kept a minimum delta of 1 for all sounds played
+
+		if(distance < 1)
+			var/nearfield_factor = 1/sqrt(2)
+			S.volume = round(S.volume * nearfield_factor)
+
+		// Use a turf on the same zlevel as the client eye
+		// so the sound can be tracked by the client correctly. We will then apply
+		// z-distance attenuation on the client side via the projection matrix
 
 		if(dz != 0)
 			source = locate(source.x, source.y, eyez)
+
+		// Use sound.atom for positional audio and let the engine handle volume falloff
+		// Skip sounds that are too far away to track and manually offset them instead.
+
+		if(!override && tracked)
+			S.atom = source
 
 		// OFFSET COMPENSATION using projection matrices
 		if(!override)
@@ -230,10 +241,6 @@
 			var/yy = 1
 			var/yz = 0
 
-			// Spatial offsets for the sound source
-			var/dx = source.x - T.x
-			var/dy = source.y - T.y
-
 			// Combine camera compensation with spatial offsets
 			var/cx = xx*ex + yx*ey + dx
 			var/cy = xy*ex + yy*ey + dy
@@ -242,10 +249,6 @@
 
 		S.falloff = (falloff ? falloff : FALLOFF_SOUNDS)
 
-		// Nearfield attenuation
-		if(distance < 1)
-			var/nearfield_factor = 1/sqrt(2)
-			S.volume = round(S.volume * nearfield_factor)
 
 	if(repeat && istype(repeat, /datum/looping_sound))
 		var/datum/looping_sound/D = repeat
@@ -255,22 +258,24 @@
 				var/sound/DS = client.played_loops[D]["SOUND"]
 				if(DS)
 					var/volly = client.played_loops[D]["VOL"]
-					if(volly != S.volume || S.transform)
-						if(S.atom)
-							DS.atom = S.atom
-						if(S.transform)
-							DS.transform = S.transform
+					if(volly != S.volume || S.transform || S.atom != DS.atom)
+						DS.atom = S.atom
+						DS.transform = S.transform
 						DS.falloff = S.falloff
 						client.played_loops[D]["VOL"] = S.volume
 						update_sound_volume(DS, S.volume)
 						if(client.played_loops[D]["MUTESTATUS"]) //we have sound so turn this off
 							client.played_loops[D]["MUTESTATUS"] = null
+						return TRUE // Necessary to prevent sounds from double updating... why wasn't this here before?
 		else
 			D.thingshearing += our_ref
 			client.played_loops[D] = list()
 			client.played_loops[D]["SOUND"] = S
 			client.played_loops[D]["VOL"] = S.volume
 			client.played_loops[D]["MUTESTATUS"] = null
+			client.played_loops[D]["PIXEL_X"] = client.pixel_x
+			client.played_loops[D]["PIXEL_Y"] = client.pixel_y
+			client.played_loops[D]["OVERRIDE"] = override
 			S.repeat = 1
 
 	SEND_SOUND(src, S)

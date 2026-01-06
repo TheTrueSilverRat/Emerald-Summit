@@ -20,7 +20,7 @@
 
 
 #define SOUND_MINIMUM_PRESSURE 10
-#define FALLOFF_SOUNDS 1
+#define FALLOFF_SOUNDS 0.5
 
 // 3D sound positioning constants
 #define ZSOUND_DISTANCE_PER_Z 2

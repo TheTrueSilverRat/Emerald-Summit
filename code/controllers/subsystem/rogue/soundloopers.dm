@@ -70,14 +70,15 @@ SUBSYSTEM_DEF(soundloopers)
 		if(!our_sound)
 			continue //something fucked up and the loop has no cursound, wups. this should basically never happen
 
-		mob.playsound_local(PS_parent, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, PS.channel, FALSE, our_sound, repeat = PS)
+		var/use_override = (mob && (PS_parent == mob || (PS_parent in mob.contents)))
+		mob.playsound_local(PS_parent, PS.cursound, PS.volume, PS.vary, PS.frequency, PS.falloff, PS.channel, FALSE, our_sound, repeat = PS, override = use_override)
 
 	//Now we check how far away etc we are
 	for(var/datum/looping_sound/loop in played_loops)
 		if (!loop)
 			played_loops -= loop
 			continue
-		
+
 		var/atom/loop_parent = loop.parent?.resolve()
 		if(!loop_parent)
 			continue
@@ -115,10 +116,15 @@ SUBSYSTEM_DEF(soundloopers)
 		else if(distance_between <= max_distance)
 			//We are close enough to hear, update position
 			// Always update when camera has moved to keep projection matrix current
-			if(pixel_x > 0 || pixel_y > 0)
+			var/prev_pixel_x = found_loop["PIXEL_X"]
+			var/prev_pixel_y = found_loop["PIXEL_Y"]
+			if(pixel_x != prev_pixel_x || pixel_y != prev_pixel_y)
 				// Re-calculate position with projection matrices
 				// playsound_local should handle distance falloff, z-level sound, camera compensation, master volume, etc.
-				mob.playsound_local(loop_parent, loop.cursound, loop.volume, loop.vary, loop.frequency, loop.falloff, loop.channel, FALSE, found_sound, repeat = loop)
+				var/use_override = found_loop["OVERRIDE"] ? TRUE : FALSE
+				mob.playsound_local(loop_parent, loop.cursound, loop.volume, loop.vary, loop.frequency, loop.falloff, loop.channel, FALSE, found_sound, repeat = loop, override = use_override)
+				found_loop["PIXEL_X"] = pixel_x
+				found_loop["PIXEL_Y"] = pixel_y
 
 				if(loop.persistent_loop && found_loop["MUTESTATUS"] == TRUE) //It was out of range and now back in range, reset it
 					found_loop["MUTESTATUS"] = FALSE
