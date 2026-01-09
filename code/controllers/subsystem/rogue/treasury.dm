@@ -32,7 +32,7 @@ SUBSYSTEM_DEF(treasury)
 	var/treasury_value = 0
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
-	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export
+	var/autoexport_percentage = 0.5 // Percentage above which stockpiles will automatically export
 	var/list/bank_accounts = list()
 	var/list/noble_incomes = list()
 	var/list/stockpile_datums = list()
