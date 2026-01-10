@@ -290,70 +290,56 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	name = "Blind"
 	desc = "I am visually impaired, ranging from poor sight to total blindness."
 	var/has_prompted = FALSE
-	var/applied_eye_damage = FALSE
-	var/pending_severity
-	var/apply_attempts = 0
-	var/static/list/severity_choices = list("Mild", "Severe", "Blind")
+	var/registered_login_signal = FALSE
+	var/chosen_severity
+	var/static/list/severity_choices = list("Moderate", "Severe", "Fully Blind")
 
 /datum/charflaw/blind/apply_post_equipment(mob/user)
 	. = ..()
-	if(applied_eye_damage || has_prompted)
-		return
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(!H.client)
-		return
-	has_prompted = TRUE
-	var/severity = tgui_input_list(H, "How severe is your blindness?", "Blindness", severity_choices, "Mild")
-	pending_severity = sanitize_inlist(severity, severity_choices, "Mild")
-	if(try_apply_eye_damage(H))
-		applied_eye_damage = TRUE
-		pending_severity = null
-		return
-	addtimer(CALLBACK(src, PROC_REF(retry_apply_eye_damage), WEAKREF(H)), 1 SECONDS)
+	register_login_signal(H)
+	maybe_prompt_and_apply(H)
 	return
 
-/datum/charflaw/blind/proc/retry_apply_eye_damage(datum/weakref/human_ref)
-	if(applied_eye_damage)
+/datum/charflaw/blind/proc/register_login_signal(mob/living/carbon/human/H)
+	if(registered_login_signal)
 		return
-	if(++apply_attempts > 10)
+	RegisterSignal(H, COMSIG_MOB_LOGIN, PROC_REF(on_owner_login))
+	registered_login_signal = TRUE
+
+/datum/charflaw/blind/proc/on_owner_login(mob/living/source)
+	SIGNAL_HANDLER
+	if(!ishuman(source))
 		return
-	var/mob/living/carbon/human/H = human_ref?.resolve()
+	var/mob/living/carbon/human/H = source
+	maybe_prompt_and_apply(H)
+
+/datum/charflaw/blind/proc/maybe_prompt_and_apply(mob/living/carbon/human/H)
+	if(!H || QDELETED(H) || !H.client)
+		return
+	if(!has_prompted)
+		has_prompted = TRUE
+		var/severity = tgui_input_list(H, "How severe is your blindness?", "Blindness", severity_choices, "Moderate")
+		chosen_severity = sanitize_inlist(severity, severity_choices, "Moderate")
+	apply_severity(H)
+	return
+
+/datum/charflaw/blind/proc/apply_severity(mob/living/carbon/human/H)
 	if(!H || QDELETED(H))
 		return
-	if(try_apply_eye_damage(H))
-		applied_eye_damage = TRUE
-		pending_severity = null
-		return
-	addtimer(CALLBACK(src, PROC_REF(retry_apply_eye_damage), human_ref), 1 SECONDS)
-
-/datum/charflaw/blind/proc/try_apply_eye_damage(mob/living/carbon/human/H)
-	if(!pending_severity)
-		return FALSE
-	return apply_eye_damage_once(H, pending_severity)
-
-/datum/charflaw/blind/proc/apply_eye_damage_once(mob/living/carbon/human/H, severity)
-	if(!H || QDELETED(H))
-		return FALSE
-	var/obj/item/organ/eyes/eyes = H.getorganslot(ORGAN_SLOT_EYES)
-	if(!eyes)
-		return FALSE
-	eyes.disable_natural_healing = TRUE
-	if(severity == "Blind")
-		eyes.setOrganDamage(eyes.maxHealth)
-		eyes.organ_flags |= ORGAN_FAILING
-		return TRUE
-	if(eyes.organ_flags & ORGAN_FAILING)
-		eyes.organ_flags &= ~ORGAN_FAILING
-		H.cure_blind(EYE_DAMAGE)
-	if(severity == "Severe")
-		var/target_damage = clamp(eyes.maxHealth - 1, 0, eyes.maxHealth - 1)
-		eyes.setOrganDamage(target_damage)
-		return TRUE
-	var/target_damage = clamp(eyes.high_threshold - 1, eyes.low_threshold + 1, eyes.maxHealth - 1)
-	eyes.setOrganDamage(target_damage)
-	return TRUE
+	// Always use a unique trait source so healing that uses EYE_DAMAGE won't cure the vice.
+	switch(chosen_severity)
+		if("Fully Blind")
+			H.cure_nearsighted("[type]")
+			H.become_blind("[type]")
+		if("Severe")
+			H.cure_blind("[type]")
+			H.become_nearsighted("[type]", 2)
+		else
+			H.cure_blind("[type]")
+			H.become_nearsighted("[type]", 1)
 
 
 /datum/charflaw/greedy
