@@ -437,7 +437,13 @@
 
 /mob/living/proc/cure_nearsighted(source)
 	REMOVE_TRAIT(src, TRAIT_NEARSIGHT, source)
-	nearsighted_severity_by_source?.Remove(source)
+	if(nearsighted_severity_by_source)
+		if(islist(source))
+			for(var/_source in source)
+				if(_source)
+					nearsighted_severity_by_source -= _source
+		else if(source)
+			nearsighted_severity_by_source -= source
 	if(!HAS_TRAIT(src, TRAIT_NEARSIGHT))
 		clear_fullscreen("nearsighted")
 		if(nearsighted_severity_by_source && !nearsighted_severity_by_source.len)
