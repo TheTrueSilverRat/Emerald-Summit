@@ -437,17 +437,20 @@
 
 /mob/living/proc/cure_nearsighted(source)
 	REMOVE_TRAIT(src, TRAIT_NEARSIGHT, source)
-	if(nearsighted_severity_by_source)
+	// If no specific source is provided, assume a global cure and clear all tracked severities.
+	if(!source)
+		nearsighted_severity_by_source = null
+	else if(nearsighted_severity_by_source)
 		if(islist(source))
 			for(var/_source in source)
 				if(_source)
 					nearsighted_severity_by_source -= _source
-		else if(source)
+		else
 			nearsighted_severity_by_source -= source
-	if(!HAS_TRAIT(src, TRAIT_NEARSIGHT))
-		clear_fullscreen("nearsighted")
 		if(nearsighted_severity_by_source && !nearsighted_severity_by_source.len)
 			nearsighted_severity_by_source = null
+	if(!HAS_TRAIT(src, TRAIT_NEARSIGHT))
+		clear_fullscreen("nearsighted")
 		return
 	update_nearsighted_overlay()
 
@@ -457,7 +460,10 @@
 		source = "unknown"
 	if(!nearsighted_severity_by_source)
 		nearsighted_severity_by_source = list()
-	nearsighted_severity_by_source[source] = max(nearsighted_severity_by_source[source], severity)
+	var/existing_severity = nearsighted_severity_by_source[source]
+	if(!isnum(existing_severity))
+		existing_severity = 0
+	nearsighted_severity_by_source[source] = max(existing_severity, severity)
 	ADD_TRAIT(src, TRAIT_NEARSIGHT, source)
 	update_nearsighted_overlay()
 
@@ -468,7 +474,9 @@
 	var/max_severity = 1
 	if(nearsighted_severity_by_source)
 		for(var/_source in nearsighted_severity_by_source)
-			max_severity = max(max_severity, nearsighted_severity_by_source[_source])
+			var/_severity = nearsighted_severity_by_source[_source]
+			if(isnum(_severity))
+				max_severity = max(max_severity, _severity)
 	overlay_fullscreen("nearsighted", /atom/movable/screen/fullscreen/impaired, max_severity)
 
 /mob/living/proc/cure_husk(source)

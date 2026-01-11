@@ -167,11 +167,18 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	desc = "Shadows creep across my vision, some long and dark, others a hollow void."
 	var/has_prompted = FALSE
 	var/prompt_in_progress = FALSE
-	/// 1=Moderate (nearsighted 1), 2=Severe (nearsighted 2), 3=Complete (blind)
+	/// 0=Disabled (cure vice-applied effects), 1=Moderate (nearsighted 1), 2=Severe (nearsighted 2), 3=Complete (blind)
 	var/chosen_severity_level = 1
 	var/last_apply = 0
+	/// Weakref to the owning mob (if known) to make admin VV edits apply immediately.
+	var/datum/weakref/owner_ref
 	var/static/list/severity_choices = list("Moderate", "Severe", "Complete")
 	var/static/list/severity_choice_to_level = list("Moderate" = 1, "Severe" = 2, "Complete" = 3)
+
+/datum/charflaw/blind/on_mob_creation(mob/user)
+	..()
+	if(ishuman(user))
+		owner_ref = WEAKREF(user)
 
 /datum/charflaw/blind/flaw_on_life(mob/user)
 	if(!ishuman(user))
@@ -203,7 +210,16 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	if(!H || QDELETED(H))
 		return FALSE
 	var/source = "[type]"
-	var/severity_level = clamp(round(chosen_severity_level), 1, 3)
+	var/severity_level = clamp(round(chosen_severity_level), 0, 3)
+	if(severity_level <= 0)
+		var/changed = FALSE
+		if(HAS_TRAIT_FROM(H, TRAIT_BLIND, source))
+			H.cure_blind(source)
+			changed = TRUE
+		if(HAS_TRAIT_FROM(H, TRAIT_NEARSIGHT, source))
+			H.cure_nearsighted(source)
+			changed = TRUE
+		return changed
 	// Always use a unique trait source so healing that uses EYE_DAMAGE won't cure the vice.
 	if(severity_level >= 3)
 		// Already fully blind from this vice source and not also nearsighted from it.
@@ -224,6 +240,22 @@ GLOBAL_LIST_INIT(character_flaws, list(
 		H.cure_blind(source)
 	H.become_nearsighted(source, severity_level)
 	return TRUE
+
+/datum/charflaw/blind/vv_edit_var(var_name, var_value)
+	if(var_name == NAMEOF(src, chosen_severity_level))
+		if(!isnum(var_value))
+			return FALSE
+		var_value = clamp(round(var_value), 0, 3)
+		. = ..()
+		if(.)
+			var/mob/living/carbon/human/H = owner_ref?.resolve()
+			if(ishuman(H) && !QDELETED(H))
+				apply_severity(H)
+				last_apply = world.time
+		return .
+	if(var_name == NAMEOF(src, has_prompted))
+		var_value = var_value ? TRUE : FALSE
+	return ..()
 
 /datum/charflaw/paranoid
 	name = "Paranoid"
