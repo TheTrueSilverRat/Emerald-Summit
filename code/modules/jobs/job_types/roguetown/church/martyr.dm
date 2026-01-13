@@ -715,7 +715,7 @@
 
 /obj/item/rogueweapon/mace/goden/martyr
 	possible_item_intents = list(/datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/effect/hobble)
 	icon_state = "martyrmace"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	item_state = "martyrmace"
