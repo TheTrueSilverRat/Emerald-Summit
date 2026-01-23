@@ -227,3 +227,9 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 !/config/title_music/sounds/title1.ogg
 /config/title_screens/images/*
 !/config/title_screens/images/exclude
+
+#Ignore byond-tracy binary
+/prof.dll
+
+
+
