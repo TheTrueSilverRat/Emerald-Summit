@@ -551,8 +551,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<b>Feature Color #1:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color2;task=input'>Change</a><BR>"
 				dat += "<b>Feature Color #2:</b><span style='border: 1px solid #161616; background-color: #[features["mcolor3"]];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color3;task=input'>Change</a><BR>"
 
-			dat += "<b>Voice Color: </b> <span style='border: 1px solid #161616; background-color: [voice_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=voice;task=input'>Change</a>"
-			dat += "<br><b>Nickname Color: </b> <span style='border: 1px solid #161616; background-color: [highlight_color];'>&nbsp;&nbsp;&nbsp;</span> </b><a href='?_src_=prefs;preference=highlight_color;task=input'>Change</a>"
+			dat += "<b>Voice Color: </b> <span style='border: 1px solid #161616; background-color: #[voice_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=voice;task=input'>Change</a>"
+			dat += "<br><b>Nickname Color: </b> <span style='border: 1px solid #161616; background-color: #[highlight_color];'>&nbsp;&nbsp;&nbsp;</span> </b><a href='?_src_=prefs;preference=highlight_color;task=input'>Change</a>"
 			dat += "<br><b>Voice Pitch: </b><a href='?_src_=prefs;preference=voice_pitch;task=input'>[voice_pitch]</a>"
 			dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=char_accent;task=input'>[char_accent]</a>"
 			dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
@@ -2373,30 +2373,30 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							features["body_size"] = new_body_size
 
 				if("tail_color")
-					var/new_tail_color = color_pick_sanitized(user, "Choose your character's tail color:", "Character Preference",  tail_color)
+					var/new_tail_color = color_pick_sanitized(user, "Choose your character's tail color:", "Character Preference", "#"+tail_color)
 					if(new_tail_color)
 						tail_color = sanitize_hexcolor(new_tail_color)
 
 				if("tail_markings_color")
-					var/new_tail_markings_color = color_pick_sanitized(user, "Choose your character's tail markings color:", "Character Preference",  tail_markings_color)
+					var/new_tail_markings_color = color_pick_sanitized(user, "Choose your character's tail markings color:", "Character Preference", "#"+tail_markings_color)
 					if(new_tail_markings_color)
 						tail_markings_color = sanitize_hexcolor(new_tail_markings_color)
 
 				if("mutant_color")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference", features["mcolor"])
+					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference", "#"+features["mcolor"])
 					if(new_mutantcolor)
 
 						features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
 
 				if("mutant_color2")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #2 color:", "Character Preference", features["mcolor2"])
+					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #2 color:", "Character Preference", "#"+features["mcolor2"])
 					if(new_mutantcolor)
 						features["mcolor2"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
 
 				if("mutant_color3")
-					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #3 color:", "Character Preference", features["mcolor3"])
+					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #3 color:", "Character Preference", "#"+features["mcolor3"])
 					if(new_mutantcolor)
 						features["mcolor3"] = sanitize_hexcolor(new_mutantcolor)
 						try_update_mutant_colors()
@@ -2404,7 +2404,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("skin_choice_pick")
 					var/prompt = alert(user, "Choose skin/scales color",, "Custom", "Predefined")
 					if(prompt == "Custom")
-						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/scale color:", "Character Preference", features["mcolor"])
+						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/scale color:", "Character Preference", "#"+features["mcolor"])
 						if(new_mutantcolor)
 							features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 							try_update_mutant_colors()
@@ -2418,7 +2418,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("skin_feathers_pick")
 					var/prompt = alert(user, "Choose skin/feathers color",, "Custom", "Predefined")
 					if(prompt == "Custom")
-						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/feathers color:", "Character Preference", features["mcolor"])
+						var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's skin/feathers color:", "Character Preference", "#"+features["mcolor"])
 						if(new_mutantcolor)
 							features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 							try_update_mutant_colors()

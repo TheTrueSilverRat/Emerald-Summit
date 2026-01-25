@@ -164,7 +164,7 @@ GLOBAL_VAR_INIT(patreonsaylevel, 4) // Minimum patreon level that the fancy say 
 	set desc = ""
 
 	if(prefs)
-		var/new_color = input(src, "Choose your voice color:", "Patreon Preference", prefs.patreon_say_color) as color|null
+		var/new_color = input(src, "Choose your voice color:", "Patreon Preference","#"+prefs.patreon_say_color) as color|null
 		if(new_color)
 			if(color_hex2num(new_color) < 230)
 				to_chat(src, "<font color='red'>This voice color is too dark.</font>")
