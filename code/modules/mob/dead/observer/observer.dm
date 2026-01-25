@@ -75,6 +75,11 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	hud_type = /datum/hud/adminghost
 	icon_state = "ghost2" //the manacles represent the oppression of the admin team
 
+/mob/dead/observer/admin/Login()
+	. = ..()
+	if(started_as_observer)
+		show_popup_menus = TRUE //Force context menus on for full-time aghosts
+
 /mob/dead/observer/rogue/nodraw
 	draw_icon = FALSE
 	icon = 'icons/roguetown/mob/misc.dmi'
