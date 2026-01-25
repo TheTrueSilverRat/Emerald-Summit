@@ -83,7 +83,8 @@ GLOBAL_VAR_INIT(running_create_and_destroy, FALSE)
 				baseturf_count = length(spawn_at.baseturfs)
 		else
 			if(ispath(type_path, /mob/living/carbon/human))
-				if(astype(type_path, /mob/living/carbon/human).mode != NPC_AI_OFF)
+				var/mob/living/carbon/human/human_type = type_path
+				if(initial(human_type.mode) != NPC_AI_OFF)
 					log_test("Skipping [type_path], Carbon with NPC AI Enabled")
 					continue
 			var/atom/creation = new type_path(spawn_at)
