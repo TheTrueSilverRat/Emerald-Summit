@@ -3,8 +3,8 @@
 	flag = BANDIT
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 5
+	spawn_positions = 5
 	antag_job = TRUE
 	allowed_races = RACES_ALL_KINDS
 	disallowed_races = /datum/species/ogre
