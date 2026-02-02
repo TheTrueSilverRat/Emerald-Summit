@@ -318,7 +318,7 @@
 	if(isliving(A))
 		var/mob/living/O = A
 		var/dex_save = O.get_skill_level(/datum/skill/misc/climbing)
-		if( levels <= 3 && (dex_save >= 5 || HAS_TRAIT(A, TRAIT_NOFALLDAMAGE1) || HAS_TRAIT(A, TRAIT_NOFALLDAMAGE2)))
+		if( levels <= 3 && (dex_save >= 6 || HAS_TRAIT(A, TRAIT_NOFALLDAMAGE1) || HAS_TRAIT(A, TRAIT_NOFALLDAMAGE2)))
 			if(O.m_intent != MOVE_INTENT_SNEAK) // If we're sneaking, don't show a message to anybody, shhh!
 				O.visible_message("<span class='danger'>[A] gracefully lands on top of [src]!</span>")
 		else
