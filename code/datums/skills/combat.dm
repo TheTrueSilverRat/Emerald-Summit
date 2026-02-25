@@ -112,3 +112,10 @@
 	"...the perched archers ruthlessly repel the peasant rebellion. Hope for fairness is almost forlorn, until with a soft crack, a hailing of iron bullets clatter against the foe's helmets...",
 	"...your arm tires from the toils of practice. Swinging rapidly has left your arm numb. With weary eyes, you glance aside to witness a hunter practice their craft with a brief overhand toss. Absorbing the technique, you mimic it, and effortlessly cast a powerful stone square onto the target..."
 	)
+
+/datum/skill/combat/firearms
+	name = "Firearms"
+	desc = "Firearms is a skill that represents your character's ability to fight with firearms. The higher your skill in Firearms, the more accurate you'll be with firearms."
+	dreams = list(
+		"...one shot... you smell the sulfur... you spit the dirt out of your mouth, and blink the blood away... now... you know... you love to reload during a battle..."
+	)

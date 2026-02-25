@@ -32,3 +32,11 @@
 /datum/reagent/rogueacid/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	M.adjustFireLoss(35, 0)
 	..()
+
+/datum/reagent/blastpowder
+	name = "Blastpowder"
+	description = "."
+	reagent_state = SOLID
+	color = "#6b0000"
+	taste_description = "spicy"
+	self_consuming = TRUE

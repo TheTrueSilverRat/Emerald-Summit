@@ -741,3 +741,53 @@
 #undef ARROW_PENETRATION
 #undef BOLT_PENETRATION
 #undef BULLET_PENETRATION
+
+
+
+/*--------\
+| Bullets |
+\--------*/
+
+//................ Lead Ball ............... //
+/obj/projectile/bullet/reusable/bullet
+	name = "lead ball"
+	desc = "A round lead shot, simple and spherical."
+	damage = 80
+	damage_type = BRUTE
+	icon = 'icons/roguetown/weapons/ammo.dmi'
+	icon_state = "musketball_proj"
+	ammo_type = /obj/item/ammo_casing/caseless/bullet
+	range = 15
+	jitter = 5
+	eyeblur = 3
+	hitsound = 'sound/combat/hits/hi_bolt (2).ogg'
+	embedchance = 100
+	woundclass = BCLASS_SHOT
+	impact_effect_type = /obj/effect/temp_visual/impact_effect
+	flag =  "piercing"
+	armor_penetration = BULLET_PENETRATION
+	speed = 0.3
+	accuracy = 50 //Lower accuracy than an arrow.
+	reduce_crit_chance = 2 //Reduces crit chance
+	dismemberment = 0 //Can't dismember
+	drop_ammo = FALSE // Don't drop ammo on hit, as this is a reusable bullet
+
+/obj/projectile/bullet/reusable/bullet/on_hit(atom/target)
+	var/atom/throw_target = get_edge_target_turf(firer, get_dir(firer, target))
+	if(ismob(target))
+		var/mob/living/carbon/target_mob = target
+		target_mob.safe_throw_at(throw_target, 1, 4)
+		target_mob.Knockdown(SHOVE_KNOCKDOWN_SOLID)
+	..()
+
+/obj/item/ammo_casing/caseless/bullet
+	name = "lead ball"
+	desc = "A round lead shot, simple and spherical."
+	projectile_type = /obj/projectile/bullet/reusable/bullet
+	caliber = "musketball"
+	icon = 'icons/roguetown/weapons/ammo.dmi'
+	icon_state = "musketball"
+	dropshrink = 0.5
+	possible_item_intents = list(/datum/intent/use)
+	force = 3
+
